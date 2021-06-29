@@ -19,13 +19,13 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build g3
         run: |
-          docker build ursim/g3 --file Dockerfile --tag ${{secrets.DOCKER_USER}}/ursim_docker:ursim_g3
+          docker build ursim/g3 --tag ${{secrets.DOCKER_USER}}/ursim_docker:ursim_g3
       - name: Push g3
         run: |
           docker push ${{secrets.DOCKER_USER}}/ursim_docker
       - name: Build g5
         run: |
-          docker build ursim/g5 --file Dockerfile --tag ${{secrets.DOCKER_USER}}/ursim_docker:ursim_g5
+          docker build ursim/g5 --tag ${{secrets.DOCKER_USER}}/ursim_docker:ursim_g5
       - name: Push g5
         run: |
           docker push ${{secrets.DOCKER_USER}}/ursim_docker        
