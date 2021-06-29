@@ -24,13 +24,12 @@
 FROM ubuntu:latest
 
 # Set Version Information
-ARG BUILD_DATE="15/08/19"
 ARG VERSION="5.8.0.10253"
-LABEL build_version="URSim Version: ${VERSION} Build Date: ${BUILD_DATE}"
-ENV APPNAME="URSim"
+LABEL build_version="URSim Version: ${VERSION}"
+LABEL description="ursimulator e-series"
 
 # Set Timezone
-ARG TZ="Europe/London"
+ARG TZ="Europe/Copenhagen"
 ENV TZ ${TZ}
 
 # Setup Environment
@@ -48,6 +47,7 @@ RUN \
     apt-get install -qy --no-install-recommends \
     openjdk-8-jre psmisc && \
     apt-get -y install curl && \
+    apt-get install -y x11vnc xvfb && \
     # Change java alternatives so we use openjdk8 (required by URSim) not openjdk11 that comes with guacgui
     update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 10000
 
@@ -103,12 +103,6 @@ RUN \
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# Copy programs
-COPY safety.conf.UR5 /ursim/.urcontrol/
-COPY programs /ursim/programs.${ROBOT_MODEL}
-
-RUN apt-get update && apt-get install -y x11vnc xvfb
 ENV DISPLAY :1
 
 # VNC viewer
