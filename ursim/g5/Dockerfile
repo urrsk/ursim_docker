@@ -88,6 +88,7 @@ RUN \
     # Remove commands that are not relevant on docker as we are root user
     sed -i 's|pkexec ||g' ./install.sh && \
     sed -i 's|sudo ||g' ./install.sh && \
+    sed -i 's|sudo ||g' ./ursim-certificate-check.sh && \
     #
     # Install URSim
     ./install.sh && \
