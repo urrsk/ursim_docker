@@ -63,7 +63,7 @@ RUN \
     curl ${URSIM} -o URSim-Linux.tar.gz && \
     # Extract tarball
     tar xvzf URSim-Linux.tar.gz && \
-    #Remove the tarball
+    # Remove the tarball
     rm URSim-Linux.tar.gz && \
     # Rename the URSim folder to jus ursim
     mv  /ursim* /ursim

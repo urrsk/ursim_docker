@@ -9,36 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - {VERSION: 5.1.2.40245, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/45450/URSim_Linux-5.1.2.40245.tar.gz"}
-          - {VERSION: 5.3.1.64192, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/51847/URSim_Linux-5.3.1.64192.tar.gz"}
-          - {VERSION: 5.5.1.82186, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/55583/URSim_Linux-5.5.1.82186.tar.gz"}
-          - {VERSION: 5.7.0.90932, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/66137/URSim_Linux-5.7.0.90932.tar.gz"}
-          - {VERSION: 5.9.4.1031232, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/91612/URSim_Linux-5.9.4.1031232.tar.gz"}
-          - {VERSION: 5.11.1.108318, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"}
     steps:
       - uses: actions/checkout@v2
       - name: Build dockerfile
         run: |
           docker build ursim/g5 --build-arg VERSION=$VERSION --build-arg URSIM=$URSIM
-        env: ${{matrix.env}} 
+        env:
+          VERSION: 5.11.1.108318
+          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"
 
   build_and_deploy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - {VERSION: 5.1.2.40245, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/45450/URSim_Linux-5.1.2.40245.tar.gz"}
-          - {VERSION: 5.3.1.64192, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/51847/URSim_Linux-5.3.1.64192.tar.gz"}
-          - {VERSION: 5.5.1.82186, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/55583/URSim_Linux-5.5.1.82186.tar.gz"}
-          - {VERSION: 5.7.0.90932, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/66137/URSim_Linux-5.7.0.90932.tar.gz"}
-          - {VERSION: 5.9.4.1031232, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/91612/URSim_Linux-5.9.4.1031232.tar.gz"}
-          - {VERSION: 5.11.1.108318, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"}
     steps:
       - uses: actions/checkout@v2
       - name: Docker login
@@ -47,8 +29,12 @@ jobs:
       - name: Build dockerfile
         run: |
           docker build ursim/g5 --build-arg VERSION=$VERSION --build-arg URSIM=$URSIM --tag ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
-        env: ${{matrix.env}}
+        env:
+          VERSION: 5.11.1.108318
+          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"
       - name: Push to dockerhub
         run: |
           docker push ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
-        env: ${{matrix.env}}
+        env:
+          VERSION: 5.11.1.108318
+          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"
