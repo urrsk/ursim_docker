@@ -26,7 +26,7 @@ FROM ubuntu:latest
 # Set Version Information
 ARG VERSION="5.8.0.10253"
 LABEL build_version="URSim Version: ${VERSION}"
-LABEL description="ursimulator e-series"
+LABEL description="UR simulator e-series"
 
 # Set Timezone
 ARG TZ="Europe/Copenhagen"
@@ -48,7 +48,7 @@ RUN \
     openjdk-8-jre psmisc && \
     apt-get -y install curl && \
     apt-get install -y x11vnc xvfb && \
-    # Change java alternatives so we use openjdk8 (required by URSim) not openjdk11 that comes with guacgui
+    # Change java alternatives so we use openjdk8 (required by URSim)
     update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 10000
 
 # Setup JAVA_HOME
@@ -82,6 +82,7 @@ RUN \
     sed -i 's|needToInstallJava$|(exit 0)|g' install.sh && \
     # Skip install of desktop shortcuts - we dont have a desktop
     sed -i '/for TYPE in UR3 UR5 UR10/,$ d' ./install.sh  && \
+    # Replace libcurl3 with libcurl4 else the installation will fail
     sed -i 's/libcurl3/libcurl4/g' ./install.sh  && \
     # Remove commands that are not relevant on docker as we are root user
     sed -i 's|pkexec ||g' ./install.sh && \

@@ -26,7 +26,7 @@ FROM ubuntu:latest
 # Set Version Information
 ARG VERSION="5.8.0.10253"
 LABEL build_version="URSim Version: ${VERSION}"
-LABEL description="ursimulator cb series"
+LABEL description="UR simulator cb series"
 
 # Set Timezone
 ARG TZ="Europe/Copenhagen"
@@ -48,7 +48,7 @@ RUN \
     openjdk-8-jre psmisc && \
     apt-get -y install curl && \
     apt-get install -y x11vnc xvfb && \
-    # Change java alternatives so we use openjdk8 (required by URSim) not openjdk11 that comes with guacgui
+    # Change java alternatives so we use openjdk8 (required by URSim)
     update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 10000
 
 # Setup JAVA_HOME

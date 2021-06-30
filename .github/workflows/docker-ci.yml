@@ -29,4 +29,3 @@ jobs:
       - name: Push g5
         run: |
           docker push ${{secrets.DOCKER_USER}}/ursim_docker:ursim_g5      
-        
