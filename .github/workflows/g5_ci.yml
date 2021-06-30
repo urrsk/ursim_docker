@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Docker login
         run: |
-          docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_USER}}
+          docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Build dockerfile
         run: |
           docker build ursim/g5 --build-arg VERSION=$VERSION --build-arg URSIM=$URSIM --tag ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
