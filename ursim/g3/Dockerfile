@@ -24,7 +24,8 @@
 FROM ubuntu:latest
 
 # Set Version Information
-ARG VERSION="5.8.0.10253"
+ARG VERSION
+ARG URSIM
 LABEL build_version="URSim Version: ${VERSION}"
 LABEL description="UR simulator cb series"
 
@@ -59,7 +60,7 @@ RUN \
     # Make sure we are in the root
     cd / && \
     # Download URSim Linux tar.gz
-    curl https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz -o URSim-Linux.tar.gz && \
+    curl ${URSIM} -o URSim-Linux.tar.gz && \
     # Extract tarball
     tar xvzf URSim-Linux.tar.gz && \
     #Remove the tarball
