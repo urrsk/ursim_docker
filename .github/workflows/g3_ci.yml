@@ -13,11 +13,11 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - {VERSION: 3.7.2.40245, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/45439/URSim_Linux-3.7.2.40245.tar.gz}
-          - {VERSION: 3.9.1.64192, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/51822/URSim_Linux-3.9.1.64192.tar.gz}
-          - {VERSION: 3.11.0.82155, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/55904/URSim_Linux-3.11.0.82155.tar.gz}
-          - {VERSION: 3.13.1.10297, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/71468/URSim_Linux-3.13.1.10297.tar.gz}
-          - {VERSION: 3.15.3.106223, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz}
+          - {VERSION: 3.7.2.40245, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/45439/URSim_Linux-3.7.2.40245.tar.gz"}
+          - {VERSION: 3.9.1.64192, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/51822/URSim_Linux-3.9.1.64192.tar.gz"}
+          - {VERSION: 3.11.0.82155, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/55904/URSim_Linux-3.11.0.82155.tar.gz"}
+          - {VERSION: 3.13.1.10297, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/71468/URSim_Linux-3.13.1.10297.tar.gz"}
+          - {VERSION: 3.15.3.106223, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz"}
     steps:
       - uses: actions/checkout@v2
       - name: Build dockerfile
@@ -32,11 +32,11 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - {VERSION: 3.7.2.40245, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/45439/URSim_Linux-3.7.2.40245.tar.gz}
-          - {VERSION: 3.9.1.64192, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/51822/URSim_Linux-3.9.1.64192.tar.gz}
-          - {VERSION: 3.11.0.82155, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/55904/URSim_Linux-3.11.0.82155.tar.gz}
-          - {VERSION: 3.13.1.10297, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/71468/URSim_Linux-3.13.1.10297.tar.gz}
-          - {VERSION: 3.15.3.106223, URSIM: https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz}
+          - {VERSION: 3.7.2.40245, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/45439/URSim_Linux-3.7.2.40245.tar.gz"}
+          - {VERSION: 3.9.1.64192, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/51822/URSim_Linux-3.9.1.64192.tar.gz"}
+          - {VERSION: 3.11.0.82155, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/55904/URSim_Linux-3.11.0.82155.tar.gz"}
+          - {VERSION: 3.13.1.10297, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/71468/URSim_Linux-3.13.1.10297.tar.gz"}
+          - {VERSION: 3.15.3.106223, URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz"}
     steps:
       - uses: actions/checkout@v2
       - name: docker login
