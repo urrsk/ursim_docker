@@ -30,11 +30,7 @@ LABEL build_version="URSim Version: ${VERSION}"
 LABEL description="UR simulator cb series"
 
 # Set Timezone
-ARG TZ="Europe/Copenhagen"
-ENV TZ ${TZ}
-
-# Setup Environment
-ENV DEBIAN_FRONTEND noninteractive
+ENV TZ "Europe/Copenhagen"
 
 # Set Home Directory
 ENV HOME /ursim
@@ -42,11 +38,13 @@ ENV HOME /ursim
 # Set robot model - Can be UR3, UR5 or UR10
 ENV ROBOT_MODEL UR5
 
+# Set display
+ENV DISPLAY :1
+
 RUN \
     echo "**** Installing Dependencies ****" && \
     apt-get update && \
-    apt-get install -qy --no-install-recommends \
-    openjdk-8-jre psmisc && \
+    apt-get install -qy --no-install-recommends openjdk-8-jre psmisc && \
     apt-get -y install curl && \
     apt-get install -y x11vnc xvfb && \
     # Change java alternatives so we use openjdk8 (required by URSim)
@@ -57,8 +55,6 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 RUN \
     echo "**** Downloading URSim ****" && \
-    # Make sure we are in the root
-    cd / && \
     # Download URSim Linux tar.gz
     curl ${URSIM} -o URSim-Linux.tar.gz && \
     # Extract tarball
@@ -72,9 +68,6 @@ RUN \
     echo "**** Installing URSim ****" && \
     # cd to ursim folder
     cd /ursim && \
-    # Make URControl and all sh files executable
-    chmod +x ./*.sh ./URControl && \
-    #
     # Stop install of unnecessary packages and install required ones quietly
     sed -i 's|apt-get -y install|apt-get -qy install --no-install-recommends|g' ./install.sh && \
     # Skip xterm command. We dont have a desktop
@@ -102,7 +95,6 @@ RUN \
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENV DISPLAY :1
 
 # VNC viewer
 EXPOSE 5900

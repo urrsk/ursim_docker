@@ -1,8 +1,6 @@
 #!/bin/bash
 
-export DISPLAY=:1
-export ROBOT_MODEL
-
+# Setup VNC server
 Xvfb :1 -screen 0 1280x800x16 &
 x11vnc -bg -quiet -forever -shared -display :1
 
