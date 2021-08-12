@@ -41,60 +41,45 @@ ENV ROBOT_MODEL UR5
 # Set display
 ENV DISPLAY :1
 
-RUN \
-    echo "**** Installing Dependencies ****" && \
-    apt-get update && \
+# Install dependencies
+RUN apt-get update && \
     apt-get install -qy --no-install-recommends openjdk-8-jre psmisc && \
     apt-get -y install curl && \
     apt-get install -y x11vnc xvfb && \
-    # Change java alternatives so we use openjdk8 (required by URSim)
     update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 10000
 
 # Setup JAVA_HOME
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
-RUN \
-    echo "**** Downloading URSim ****" && \
-    # Download URSim Linux tar.gz
-    curl ${URSIM} -o URSim-Linux.tar.gz && \
-    # Extract tarball
-    tar xvzf URSim-Linux.tar.gz && \
-    # Remove the tarball
-    rm URSim-Linux.tar.gz && \
-    # Rename the URSim folder to jus ursim
+# Download URSim
+RUN curl ${URSIM} -o URSim.tar.gz && \
+    tar xvzf URSim.tar.gz && \
+    rm URSim.tar.gz && \
     mv  /ursim* /ursim
 
-RUN \
-    echo "**** Installing URSim ****" && \
-    # cd to ursim folder
-    cd /ursim && \
-    # Stop install of unnecessary packages and install required ones quietly
-    sed -i 's|apt-get -y install|apt-get -qy install --no-install-recommends|g' ./install.sh && \
-    # Skip xterm command. We dont have a desktop
+# Install URSim
+RUN cd /ursim && \
+    sed -i 's|apt-get -y install|apt-get -qy install --no-install-recommends|g' install.sh && \
     sed -i 's|tty -s|(exit 0)|g' install.sh && \
-    # Skip Check of Java Version as we have the correct installed and the command will fail
     sed -i 's|needToInstallJava$|(exit 0)|g' install.sh && \
-    # Skip install of desktop shortcuts - we dont have a desktop
-    sed -i '/for TYPE in UR3 UR5 UR10/,$ d' ./install.sh  && \
-    # Replace libcurl3 with libcurl4 else the installation will fail
-    sed -i 's/libcurl3/libcurl4/g' ./install.sh  && \
-    # Remove commands that are not relevant on docker as we are root user
-    sed -i 's|pkexec ||g' ./install.sh && \
-    sed -i 's|sudo ||g' ./install.sh && \
-    # Install URSim
-    ./install.sh && \
-    echo "Installed URSim"
+    sed -i '/for TYPE in UR3 UR5 UR10/,$ d' install.sh  && \
+    sed -i 's/libcurl3/libcurl4/g' install.sh  && \
+    sed -i 's|pkexec ||g' install.sh && \
+    sed -i 's|sudo ||g' install.sh && \
+    ./install.sh
 
-RUN \
-    echo "**** Clean Up ****" && \
-    rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/*
+# Clean up
+RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+# Make it possible for polyscope to find uradmin scripts
+ENV PATH "$PATH:/ursim/usr/bin"
 
 # Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+
+# Make a directory to store urcaps
+RUN mkdir /urcaps
 
 # VNC viewer
 EXPOSE 5900
