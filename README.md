@@ -9,8 +9,7 @@ robots GUI to control the robot. It also exposes all other available interfaces
 in which you can control the robot remotely.
 
 There are two different versions of the simulator an e-series robot and a CB3
-robot. There is an image for both CB3 and e-series. E-series is taged with
-5 first and CB3 with 3 first.
+robot. There is an image for both CB3 and e-series.
 
 You can find the image on [Docker Hub](https://hub.docker.com/repository/docker/mahp2502/ursim_docker/general)
 (currently not public).
@@ -31,7 +30,7 @@ docker pull mahp2502/ursim_docker:tagname
 You can also build the image with the following command:
 
 ```bash
-docker build ursim/g5 -t myursim --build-arg VERSION=5.11.1.108318 --build-arg URSIM="https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"
+docker build ursim/e-series -t myursim --build-arg VERSION=5.11.1.108318 --build-arg URSIM="https://s3-eu-west-1.amazonaws.com/ur-support-site/118926/URSim_Linux-5.11.1.108318.tar.gz"
 ```
 
 When the image has been pulled/build you can go ahead and run the image with the
