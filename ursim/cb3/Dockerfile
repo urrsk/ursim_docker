@@ -27,7 +27,7 @@ FROM ubuntu:latest
 ARG VERSION
 ARG URSIM
 LABEL build_version="URSim Version: ${VERSION}"
-LABEL description="UR simulator cb series"
+LABEL description="UR simulator CB3 series"
 
 # Set Timezone
 ENV TZ "Europe/Copenhagen"
@@ -70,9 +70,6 @@ RUN cd /ursim && \
 
 # Clean up
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
-
-# Make it possible for polyscope to find uradmin scripts
-ENV PATH "$PATH:/ursim/usr/bin"
 
 # Copy entrypoint script
 COPY entrypoint.sh /
