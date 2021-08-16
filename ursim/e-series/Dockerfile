@@ -27,7 +27,7 @@ FROM ubuntu:latest
 ARG VERSION
 ARG URSIM
 LABEL build_version="URSim Version: ${VERSION}"
-LABEL description="UR simulator e-series"
+LABEL description="Simulator for Universal Robots e-Series"
 
 # Set Timezone
 ENV TZ "Europe/Copenhagen"
