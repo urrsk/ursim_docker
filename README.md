@@ -245,6 +245,8 @@ Per the Microsoft link above, run the following to add a portproxy port forward 
 ```bash
 netsh interface portproxy add v4tov4 listenport=6080 listenaddress=0.0.0.0 connectport=6080 connectaddress=(wsl hostname -I)
 ```
+Replace 6080 with 5900 if using a VNC client instead of the No-VNC web client. Or repeat the above for each port.
+
 you can view the current portproxy rules and the one you just created with:
 ```bash
 netsh interface portproxy show all
