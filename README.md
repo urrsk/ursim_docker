@@ -227,3 +227,34 @@ docker run --rm -it -p 5900:5900 -v "${HOME}/urcaps:/urcaps" myursim
 
 This will install the URCap when running the container and without having to restart
 the simulator.
+
+## Run in WSL2; access URsim from Windows Web Browser
+
+URsim Docker can be run in WSL without Docker Desktop. Launching the container is the same as above. 
+
+Accessing the VNC requires 
+1) forwarding ports from windows to WSl
+AND
+2) launch the container with port forwards from WSL (docker Host) to the container
+
+### 1) forwarding ports from windows to WSl
+
+See here: https://learn.microsoft.com/en-us/windows/wsl/networking#accessing-a-wsl-2-distribution-from-your-local-area-network-lan
+
+Per the Microsoft link above, run the following to add a portproxy port forward from windows to wsl. For example: the following command forwards port 6080 for the web-VNC client:
+```bash
+netsh interface portproxy add v4tov4 listenport=6080 listenaddress=0.0.0.0 connectport=6080 connectaddress=(wsl hostname -I)
+```
+you can view the current portproxy rules and the one you just created with:
+```bash
+netsh interface portproxy show all
+```
+
+__NOTE__: You may need to add a firewall rule to windows firewall allowing connections to this port as well
+
+### 2) Launch the container with port forwards:
+```bash
+docker run --rm -it -p 5900:5900 -p 6080:6080 universalrobots/ursim_e-series
+```
+Identify WSL Distro IP address. From your WSL terminal, run `ifconfig`, and find your WSL IP (typically `eth0`)
+Access the web-vnc client in a browser at http://[__*WSL Distro IP*__]:6080
