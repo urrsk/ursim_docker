@@ -13,10 +13,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build dockerfile
         run: |
-          docker build ursim/cb3 --build-arg VERSION=$VERSION --build-arg URSIM=$URSIM
+          docker build ursim/cb3 --build-arg VERSION=$VERSION
         env:
-          VERSION: 3.15.3.106223
-          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz"
+          VERSION: latest
 
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -28,13 +27,11 @@ jobs:
           docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Build dockerfile
         run: |
-          docker build ursim/cb3 --build-arg VERSION=$VERSION --build-arg URSIM=$URSIM --tag ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
+          docker build ursim/cb3 --build-arg VERSION=$VERSION --tag ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
         env:
-          VERSION: 3.15.3.106223
-          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz"
+          VERSION: latest
       - name: Push to dockerhub
         run: |
           docker push ${{secrets.DOCKER_USER}}/ursim_docker:$VERSION
         env:
-          VERSION: 3.15.3.106223
-          URSIM: "https://s3-eu-west-1.amazonaws.com/ur-support-site/116229/URSim_Linux-3.15.3.106223.tar.gz"
+          VERSION: latest
